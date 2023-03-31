@@ -9,17 +9,26 @@ import genDif from '../src/index.js';
 describe('genDif', () => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
-  const getFixturepath = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
+  const getFixturePath = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
 
-  const nameOfFile1 = 'file1.json';
-  const nameOfFile2 = 'file2.json';
-  const nameOfTrueAnswer = 'correctAnswer.txt';
+  const nameOfFileJson1 = 'file1.json';
+  const nameOfFileJson2 = 'file2.json';
 
-  const file1 = getFixturepath(nameOfFile1);
-  const file2 = getFixturepath(nameOfFile2);
-  const trueAnswer = getFixturepath(nameOfTrueAnswer);
+  const nameOfFileYML1 = 'file1.yml';
+  const nameOfFileYML2 = 'file2.yml';
 
-  test('search differences', () => {
-    expect(genDif(file1, file2)).toEqual(fs.readFileSync(trueAnswer, 'utf-8'));
+  const trueAnswerJson = 'correctAnswer.txt';
+
+  const fileJson1 = getFixturePath(nameOfFileJson1);
+  const fileJson2 = getFixturePath(nameOfFileJson2);
+  const fileYML1 = getFixturePath(nameOfFileYML1);
+  const fileYML2 = getFixturePath(nameOfFileYML2);
+  const trueAnswer = getFixturePath(trueAnswerJson);
+
+  test('search differences with JSON files', () => {
+    expect(genDif(fileJson1, fileJson2)).toEqual(fs.readFileSync(trueAnswer, 'utf-8'));
+  });
+  test('search differences with YML files', () => {
+    expect(genDif(fileYML1, fileYML2)).toEqual(fs.readFileSync(trueAnswer, 'utf-8'));
   });
 });

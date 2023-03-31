@@ -1,5 +1,5 @@
 const formatter = (obj, indent = '  ') => {
-  const makeString = obj.map((data) => {
+  const normalizeSting = obj.map((data) => {
     if (data.type === 'deleted') {
       return `${indent}- ${data.key}: ${data.value1}`;
     }
@@ -14,7 +14,7 @@ const formatter = (obj, indent = '  ') => {
     }
     return '';
   });
-  const result = ['{', ...makeString, '}'].join('\n');
+  const result = ['{', ...normalizeSting, '}'].join('\n');
   return result;
 };
 export default formatter;
