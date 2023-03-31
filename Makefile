@@ -1,5 +1,5 @@
 install: 
-	npx simple-git-hooks
+	npm install
 	
 
 run:
