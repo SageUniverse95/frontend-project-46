@@ -1,4 +1,4 @@
-instal: instal-deps
+installcle: instal-deps
 	npx simple-git-hooks
 	
 
