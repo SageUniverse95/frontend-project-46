@@ -3,6 +3,13 @@ import _ from 'lodash';
 const makeTree = (file1, file2) => {
   const allKeys = _.sortBy(_.union(Object.keys(file1), Object.keys(file2)));
   const result = allKeys.map((key) => {
+    if (_.isPlainObject(file1[key]) && _.isPlainObject(file2[key])) {
+      return {
+        type: 'nested',
+        child: makeTree(file1[key], file2[key]),
+
+      };
+    }
     if (Object.hasOwn(file1, key) && !Object.hasOwn(file2, key)) {
       return {
         type: 'deleted',
