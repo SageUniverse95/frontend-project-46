@@ -6,6 +6,7 @@ const makeTree = (file1, file2) => {
     if (_.isPlainObject(file1[key]) && _.isPlainObject(file2[key])) {
       return {
         type: 'nested',
+        key,
         child: makeTree(file1[key], file2[key]),
 
       };
