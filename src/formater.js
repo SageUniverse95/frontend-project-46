@@ -21,7 +21,7 @@ const formatter = (dif) => {
   const iter = (obj, depth = 1) => {
     const line = obj.map((data) => {
       if (data.type === 'nested') {
-        return `${makeIndent(depth)}  ${data.key}: ${iter(data.child, depth + 1)}`;
+        return `${makeIndent(depth)}  ${data.key}: {\n${iter(data.child, depth + 1).join('\n')}\n  ${makeIndent(depth)}}`;
       }
       if (data.type === 'deleted') {
         return `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value1, depth)}`;
@@ -37,9 +37,8 @@ const formatter = (dif) => {
       }
       return 'default message';
     });
-    const result = ['{', ...line, `${makeIndent(depth)}}`].join('\n');
-    return result;
+    return line;
   };
-  return `{\n${iter(dif, 1)}\n}`;
+  return `{\n${iter(dif, 1).join('\n')}\n}`;
 };
 export default formatter;

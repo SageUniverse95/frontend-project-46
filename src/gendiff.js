@@ -26,7 +26,7 @@ program
   .argument('<filepath2>')
   .description('Compares two configuration files and shows a difference')
   .version('1.0.0')
-  .option('-f --format <type>', 'output format')
-  .action((pathFile1, pathFile2) => console.log(genDif(pathFile1, pathFile2)));
+  .option('-f --format <type>', 'output format', 'stylish')
+  .action((pathFile1, pathFile2) => console.log(genDif(pathFile1, pathFile2, program.opts.format)));
 
 program.parse();
