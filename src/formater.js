@@ -9,11 +9,11 @@ const stringfy = (data, depth) => {
   if (!_.isPlainObject(data) || data === null) {
     return String(data);
   }
-  const line = Object.entries(data).map(([key, value]) => `${makeIndent(depth + 1)}${key}: ${stringfy(value, depth + 1)}`);
+  const line = Object.entries(data).map(([key, value]) => `${makeIndent(depth + 1)}  ${key}: ${stringfy(value, depth + 1)}`);
   return [
     '{',
     ...line,
-    `${makeIndent(depth)}}`,
+    `${makeIndent(depth)}  }`,
   ].join('\n');
 };
 
@@ -21,7 +21,7 @@ const formatter = (dif) => {
   const iter = (obj, depth = 1) => {
     const line = obj.map((data) => {
       if (data.type === 'nested') {
-        return `${makeIndent(depth)} ${data.key}: ${iter(data.child, depth + 1)}`;
+        return `${makeIndent(depth)}  ${data.key}: ${iter(data.child, depth + 1)}`;
       }
       if (data.type === 'deleted') {
         return `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value1, depth)}`;
@@ -40,6 +40,6 @@ const formatter = (dif) => {
     const result = ['{', ...line, `${makeIndent(depth)}}`].join('\n');
     return result;
   };
-  return iter(dif, 1);
+  return `{\n${iter(dif, 1)}\n}`;
 };
 export default formatter;
