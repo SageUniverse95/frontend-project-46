@@ -17,7 +17,7 @@ const stringfy = (data, depth) => {
   ].join('\n');
 };
 
-const formatter = (dif) => {
+const makeStylish = (dif) => {
   const iter = (obj, depth = 1) => {
     const line = obj.map((data) => {
       if (data.type === 'nested') {
@@ -41,4 +41,4 @@ const formatter = (dif) => {
   };
   return `{\n${iter(dif, 1).join('\n')}\n}`;
 };
-export default formatter;
+export default makeStylish;
