@@ -1,18 +1,17 @@
 import makeStylish from './stylish.js';
 import makePlain from './plain.js';
-import json from './json.js';
 
 const formatSelection = (dif, format) => {
-  if (format === 'stylish') {
-    return makeStylish(dif);
+  switch (format) {
+    case 'stylish':
+      return makeStylish(dif);
+    case 'plain':
+      return makePlain(dif);
+    case 'json':
+      return JSON.stringify(dif, null, '');
+    default:
+      throw new Error(`Unknown format ${format}, check your input`);
   }
-  if (format === 'plain') {
-    return makePlain(dif);
-  }
-  if (format === 'json') {
-    return json(dif);
-  }
-  return 'error';
 };
 
 export default formatSelection;

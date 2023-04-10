@@ -20,22 +20,23 @@ const stringfy = (data, depth) => {
 const makeStylish = (dif) => {
   const iter = (obj, depth = 1) => {
     const line = obj.map((data) => {
-      if (data.type === 'nested') {
-        return `${makeIndent(depth)}  ${data.key}: {\n${iter(data.child, depth + 1).join('\n')}\n  ${makeIndent(depth)}}`;
+      switch (data.type) {
+        case 'nested':
+          return `${makeIndent(depth)}  ${data.key}: {\n${iter(data.children, depth + 1).join('\n')}\n  ${makeIndent(depth)}}`;
+        case 'deleted':
+          return `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value, depth)}`;
+        case 'added':
+          return `${makeIndent(depth)}+ ${data.key}: ${stringfy(data.value, depth)}`;
+        case 'changed':
+          return [
+            `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value1, depth)}`,
+            `${makeIndent(depth)}+ ${data.key}: ${stringfy(data.value2, depth)}`,
+          ].join('\n');
+        case 'unchanged':
+          return `${makeIndent(depth)}  ${data.key}: ${stringfy(data.value, depth)}`;
+        default:
+          throw new Error(`Unknown type: ${data.type}`);
       }
-      if (data.type === 'deleted') {
-        return `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value1, depth)}`;
-      }
-      if (data.type === 'added') {
-        return `${makeIndent(depth)}+ ${data.key}: ${stringfy(data.value1, depth)}`;
-      }
-      if (data.type === 'changed') {
-        return `${makeIndent(depth)}- ${data.key}: ${stringfy(data.value1, depth)}\n${makeIndent(depth)}+ ${data.key}: ${stringfy(data.value2, depth)}`;
-      }
-      if (data.type === 'unchanged') {
-        return `${makeIndent(depth)}  ${data.key}: ${stringfy(data.value1, depth)}`;
-      }
-      return 'default message';
     });
     return line;
   };
