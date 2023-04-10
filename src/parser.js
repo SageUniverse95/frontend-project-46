@@ -3,12 +3,11 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 
 const parse = (data, type) => {
-  let parseFormat;
   if (type === '.yml' || type === '.ymal') {
-    parseFormat = yaml.load(fs.readFileSync(path.resolve(data), 'utf-8'));
-  } else if (type === '.json') {
-    parseFormat = JSON.parse(fs.readFileSync(path.resolve(data), 'utf-8'));
+    return yaml.load(fs.readFileSync(path.resolve(data), 'utf-8'));
+  } if (type === '.json') {
+    return JSON.parse(fs.readFileSync(path.resolve(data), 'utf-8'));
   }
-  return parseFormat;
+  throw new Error(`Unknown type: ${type}`);
 };
 export default parse;
