@@ -17,9 +17,9 @@ const stringfy = (data, depth) => {
   ].join('\n');
 };
 
-const makeStylish = (dif) => {
-  const iter = (obj, depth = 1) => {
-    const line = obj.map((data) => {
+const makeStylish = (differenceTree) => {
+  const iter = (tree, depth = 1) => {
+    const line = tree.map((data) => {
       switch (data.type) {
         case 'nested':
           return `${makeIndent(depth)}  ${data.key}: {\n${iter(data.children, depth + 1).join('\n')}\n  ${makeIndent(depth)}}`;
@@ -40,6 +40,6 @@ const makeStylish = (dif) => {
     });
     return line;
   };
-  return `{\n${iter(dif, 1).join('\n')}\n}`;
+  return `{\n${iter(differenceTree, 1).join('\n')}\n}`;
 };
 export default makeStylish;

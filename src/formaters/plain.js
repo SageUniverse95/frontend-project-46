@@ -12,9 +12,9 @@ const strigify = (object) => {
 
 const generatePath = (object, currentPath) => (currentPath !== '' ? `${currentPath}.${object.key}` : `${object.key}`);
 
-const makePlain = (dif) => {
-  const iter = (object, currentPath) => {
-    const result = object.map((data) => {
+const makePlain = (differenceTree) => {
+  const iter = (tree, currentPath) => {
+    const result = tree.map((data) => {
       const current = generatePath(data, currentPath);
       switch (data.type) {
         case 'nested':
@@ -33,6 +33,6 @@ const makePlain = (dif) => {
     });
     return result.filter(Boolean);
   };
-  return iter(dif, '').join('\n');
+  return iter(differenceTree, '').join('\n');
 };
 export default makePlain;
