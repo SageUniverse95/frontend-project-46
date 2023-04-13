@@ -14,8 +14,7 @@ const generatePath = (object, currentPath) => (currentPath !== '' ? `${currentPa
 
 const makePlain = (dif) => {
   const iter = (object, currentPath) => {
-    const filterObj = object.filter((obj) => obj.type !== 'unchanged');
-    const result = filterObj.map((data) => {
+    const result = object.map((data) => {
       const current = generatePath(data, currentPath);
       switch (data.type) {
         case 'nested':
@@ -26,11 +25,13 @@ const makePlain = (dif) => {
           return `Property '${current}' was removed`;
         case 'changed':
           return `Property '${current}' was updated. From ${strigify(data.value1)} to ${strigify(data.value2)}`;
+        case 'unchanged':
+          return null;
         default:
           throw new Error(`Unknown type: ${data.type}`);
       }
     });
-    return result;
+    return result.filter(Boolean);
   };
   return iter(dif, '').join('\n');
 };

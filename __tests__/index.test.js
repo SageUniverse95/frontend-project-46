@@ -1,6 +1,3 @@
-import {
-  describe, expect, test,
-} from '@jest/globals';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import fs from 'fs';
@@ -11,58 +8,49 @@ describe('genDiff', () => {
   const __dirname = dirname(__filename);
   const getFixturePath = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
 
-  const nameOfFileJson1 = 'file1.json';
-  const nameOfFileJson2 = 'file2.json';
-
-  const nameOfFileYML1 = 'file1.yml';
-  const nameOfFileYML2 = 'file2.yml';
-
-  const nameOfFileStylish = 'correctAnswerStylish.txt';
-  const nameOfFilePlain = 'correctAnswerPlain.txt';
-  const nameOfFileJSON = 'correctAnswerJSON.txt';
-
   test.each(
     [
       {
-        obj1: getFixturePath(nameOfFileJson1),
-        obj2: getFixturePath(nameOfFileJson2),
+        tree1: 'file1.json',
+        tree2: 'file2.json',
         type: 'stylish',
-        expected: fs.readFileSync(getFixturePath(nameOfFileStylish), 'utf-8'),
+        internalTree: 'correctAnswerStylish.txt',
       },
       {
-        obj1: getFixturePath(nameOfFileYML1),
-        obj2: getFixturePath(nameOfFileYML2),
+        tree1: 'file1.yml',
+        tree2: 'file2.yml',
         type: 'stylish',
-        expected: fs.readFileSync(getFixturePath(nameOfFileStylish), 'utf-8'),
+        internalTree: 'correctAnswerStylish.txt',
       },
       {
-        obj1: getFixturePath(nameOfFileJson1),
-        obj2: getFixturePath(nameOfFileJson2),
+        tree1: 'file1.json',
+        tree2: 'file2.json',
         type: 'plain',
-        expected: fs.readFileSync(getFixturePath(nameOfFilePlain), 'utf-8'),
+        internalTree: 'correctAnswerPlain.txt',
       },
       {
-        obj1: getFixturePath(nameOfFileYML1),
-        obj2: getFixturePath(nameOfFileYML2),
+        tree1: 'file1.yml',
+        tree2: 'file2.yml',
         type: 'plain',
-        expected: fs.readFileSync(getFixturePath(nameOfFilePlain), 'utf-8'),
+        internalTree: 'correctAnswerPlain.txt',
       },
       {
-        obj1: getFixturePath(nameOfFileJson1),
-        obj2: getFixturePath(nameOfFileJson2),
+        tree1: 'file1.json',
+        tree2: 'file2.json',
         type: 'json',
-        expected: fs.readFileSync(getFixturePath(nameOfFileJSON), 'utf-8'),
+        internalTree: 'correctAnswerJSON.txt',
+      },
+      {
+        tree1: 'file1.json',
+        tree2: 'file2.json',
+        type: undefined,
+        internalTree: 'correctAnswerStylish.txt',
       },
     ],
   )('gendiff check with other type', ({
-    obj1, obj2, type, expected,
+    tree1, tree2, type, internalTree,
   }) => {
-    expect(genDif(obj1, obj2, type)).toEqual(expected);
-  });
-  test('gendiff with default format', () => {
-    expect(genDif(
-      getFixturePath(nameOfFileJson1),
-      getFixturePath(nameOfFileJson2),
-    )).toEqual(fs.readFileSync(getFixturePath(nameOfFileStylish), 'utf8'));
+    expect(genDif(getFixturePath(tree1), getFixturePath(tree2), type))
+      .toEqual(fs.readFileSync(getFixturePath(internalTree), 'utf-8'));
   });
 });
