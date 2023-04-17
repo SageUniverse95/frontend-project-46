@@ -8,15 +8,10 @@ const getData = (data) => fs.readFileSync(path.resolve(data), 'utf-8');
 const getExtname = (data) => path.extname(data).slice(1, data.length);
 
 const genDif = (path1, path2, format = 'stylish') => {
-  const tree1 = parse(
-    getData(path1),
-    getExtname(path1),
+  const internalTree = makeTree(
+    parse(getData(path1), getExtname(path1)),
+    parse(getData(path2), getExtname(path2)),
   );
-  const tree2 = parse(
-    getData(path2),
-    getExtname(path2),
-  );
-  const internalTree = makeTree(tree1, tree2);
   return formatSelection(internalTree, format);
 };
 export default genDif;
