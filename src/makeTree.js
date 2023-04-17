@@ -41,7 +41,7 @@ const makeTree = (tree1, tree2) => {
 
       };
     }
-    return {};
+    throw new Error(`Сorrupted input files: ${tree1} ${tree2}`);
   });
   return differenceTree;
 };
